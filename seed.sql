@@ -6,14 +6,14 @@ VALUES
 
 INSERT INTO employee_role (title, salary, department_id)
 VALUES 
-('Manager', 100000, 1),
-('Assistant', 50000, 1),
+('Marketing Manager', 100000, 1),
+('Marketing Assistant', 50000, 1),
 ('Marketer', 75000, 1),
-('Manager', 100000, 2),
-('Assistant', 50000, 2),
+('Accounting Manager', 100000, 2),
+('Accounting Assistant', 50000, 2),
 ('Accountant', 75000, 2),
-('Manager', 100000, 3),
-('Assistant', 50000, 3),
+('Human Resources Manager', 100000, 3),
+('Human Resources Assistant', 50000, 3),
 ('HR Person', 75000, 3);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
