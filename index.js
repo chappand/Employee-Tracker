@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   user: 'root',
 
   // Your password
-  password: '',
+  password: 'Wnd9n55b',
   database: 'employee_trackerDB',
 });
 
@@ -58,7 +58,7 @@ const startInquiry = () => {
 const viewEmployees = () => {
 
     connection.query(
-        'SELECT * FROM employee_role LEFT JOIN department ON employee_role.department_id = department.id LEFT JOIN employee ON employee_role.id = employee.role_id', (err, res) => {
+        'SELECT first_name, last_name, department_name, title, salary, manager_id FROM employee_role LEFT JOIN department ON employee_role.department_id = department.id LEFT JOIN employee ON employee_role.id = employee.role_id', (err, res) => {
             if (err) throw err;
             console.table(res);
             startInquiry();
