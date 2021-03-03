@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   user: 'root',
 
   // Your password
-  password: 'Wnd9n55b',
+  password: '',
   database: 'employee_trackerDB',
 });
 
@@ -57,17 +57,15 @@ const startInquiry = () => {
 
 const viewEmployees = () => {
 
-
-   
-                connection.query(
-                    'SELECT * FROM employee_role LEFT JOIN department ON employee_role.department_id = department.id LEFT JOIN employee ON employee_role.id = employee.role_id', (err, res) => {
-                        if (err) throw err;
-                        console.table(res);
-                        startInquiry();
-                    }
-                );
-
+    connection.query(
+        'SELECT * FROM employee_role LEFT JOIN department ON employee_role.department_id = department.id LEFT JOIN employee ON employee_role.id = employee.role_id', (err, res) => {
+            if (err) throw err;
+            console.table(res);
+            startInquiry();
+        }
+        );
 }; 
+
 
 const addEmployees = () => {
     inquirer
@@ -149,117 +147,39 @@ const updateEmployees = () => {
         if (err) throw err;
 
         inquirer
-            .prompt({
-                name: 'updateEmployees',
-                type: 'list',
-                choices() {
-                    const choiceArray = [];
+            .prompt([{
+                    name: 'updateEmployees',
+                    type: 'list',
+                    choices() {
+                        const choiceArray = [];
                         res.forEach(({first_name}) => {
                             choiceArray.push(first_name)
                         });
                         return choiceArray;
                     },
-                message: 'Which employee would you like to update?',
+                    message: 'Which employees role would you like to update?',
     
                 },
                 {
-                    name: 'whatUpdate',
-                    type: 'list',
-                    message: 'What would you like to update?',
-                    choices: ['First Name', 'Last Name', 'Role ID', 'Manager ID']
-                })
-                .then((answer) => {
-                    switch (answer.whatUpdate) {
-                        case 'First Name':
-                            inquirer.prompt({
-                                name: 'firstNameUpdate',
-                                type: 'input',
-                                message: 'What would you like to set the first name to?'
-                            }).then((answer) => {
-                                connection.query('UPDATE employee SET ? WHERE ?',
-                                [{
-                                    first_name: answer.updateEmployees
-                                },
-                                {
-                                    first_name: answer.firstNameUpdate
-                                }],
-                                (error) => {
-                                    if (error) throw err;
-                                    console.log('First Name updated successfully!');
-                                    startInquiry();
-                            })}) 
-                            break;  
-                        
-                        case 'Last Name':
-                            inquirer.prompt({
-                                name: 'lastNameUpdate',
-                                type: 'input',
-                                message: 'What would you like to set the last name to?'
-                            }).then((answer) => {
-                                connection.query('UPDATE employee SET ? WHERE ?',
-                                [{
-                                    first_name: answer.updateEmployees
-                                },
-                                {
-                                    last_name: answer.lastNameUpdate
-                                }],
-                                (error) => {
-                                    if (error) throw err;
-                                    console.log('Last Name updated successfully!');
-                                    startInquiry();
-                            })}) 
-                            break;
+                    name: 'roleIDUpdate',
+                    type: 'input',
+                    message: 'What would you like to set the role ID to?'
+                }]).then((answer) => {
 
-                        case 'Role ID':
-                            inquirer.prompt({
-                                name: 'roleIDUpdate',
-                                type: 'input',
-                                message: 'What would you like to set the role ID to?'
-                            }).then((answer) => {
-                                connection.query('UPDATE employee SET ? WHERE ?',
-                                [{
-                                    first_name: answer.updateEmployees
-                                },
-                                {
-                                    role_id: answer.roleIDUpdate
-                                }],
-                                (error) => {
-                                    if (error) throw err;
-                                    console.log('Role ID updated successfully!');
-                                    startInquiry();
-                            })}) 
-                            break;
-
-                        case 'Manager ID':
-                            inquirer.prompt({
-                                name: 'managerIDUpdate',
-                                type: 'input',
-                                message: 'What would you like to set the manager ID to?'
-                            }).then((answer) => {
-                                connection.query('UPDATE employee SET ? WHERE ?',
-                                [{
-                                    first_name: answer.updateEmployees
-                                },
-                                {
-                                    manager_id: answer.managerIDUpdate
-                                }],
-                                (error) => {
-                                    if (error) throw err;
-                                    console.log('Manager ID updated successfully!');
-                                    startInquiry();
-                            })}) 
-                            break;
-                        
-                        default:
-                            console.log(`Invalid action: ${answer.updateEmployees}`);
-                            break;
-                }
-            })
-        })
-     }
-
-
-
+                        connection.query('UPDATE employee SET ? WHERE ?',
+                        [{
+                            first_name: answer.updateEmployees
+                        },
+                        {
+                            role_id: answer.roleIDUpdate
+                        }],
+                        (error) => {
+                            if (error) throw err;
+                            console.log('Role ID updated successfully!');
+                            startInquiry();
+                    })}) 
+                })}
+            
 
 connection.connect((err) => {
     if (err) throw err;
