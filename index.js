@@ -15,10 +15,6 @@ const connection = mysql.createConnection({
   database: 'employee_trackerDB',
 });
 
-connection.connect((err) => {
-  if (err) throw err;
-  startInquiry();
-});
 
 const startInquiry = () => {
     inquirer
@@ -58,3 +54,43 @@ const startInquiry = () => {
     });
 };
     
+
+const viewEmployees = () => {
+
+    connection.query('SELECT * FROM employee', (err, res) => {
+        if (err) throw err;
+
+    inquirer
+        .prompt({
+            name: 'viewEmployees',
+            type: 'list',
+            choices() {
+                const choiceArray = [];
+                    res.forEach((id, {first_name}, {last_name}) => {
+                        choiceArray.push(id, first_name, last_name)
+                    });
+                    return choiceArray;
+                },
+            message: 'Which employee would you like to view?',
+
+            })
+            .then((answer) => {
+                connection.query(
+                    'SELECT * FROM employee_role LEFT JOIN department ON employee_role.department_id = department.id LEFT JOIN employee ON employee_role.id = employee.role_id', (err, res) => {
+                        if (err) throw err;
+                        console.table([answer.first_name, answer.last_name, answer.department_name, answer.title, answer.salary]);
+                        startInquiry();
+                    }
+                );
+            });
+        });
+}; 
+
+
+
+connection.connect((err) => {
+    if (err) throw err;
+    startInquiry();
+  });
+
+
