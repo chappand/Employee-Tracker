@@ -21,4 +21,4 @@ Once you start the program, it will prompt you to ask questions. You can choose 
 
 ## Video
 
-![Tutorial]()
+![Tutorial](Assets/EmployeeTutorial.mp4)
